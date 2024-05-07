@@ -5,27 +5,29 @@ import random
 from keyboards.keyboards import keyboard
 from utils.random_fox import fox
 
+# Создаем объект Router для обработки маршрутов
 router = Router()
 
+# Обработчик команды /start
 @router.message(Command(commands=['start']))
 async def start(message: types.Message):
     await message.answer(f'Привет, {message.from_user.full_name}!', reply_markup=keyboard)
 
-
+# Обработчик команд /стоп и /stop
 @router.message(Command(commands=['стоп']))
 @router.message(Command(commands=['stop']))
 async def stop(message: types.Message):
     print(message.from_user.full_name)
-    await message.answer(f'Привет, {message.chat.first_name}!')
+    await message.answer(f'Пока, {message.chat.first_name}!')
 
-
+# Обработчик команд /инфо и /info, а также текстового сообщения "инфо"
 @router.message(Command(commands=['инфо', 'info']))
 @router.message(F.text.lower() == 'инфо')
 async def info(message: types.Message):
     number = random.randint(0, 100)
     await message.answer(f'Привет, твоё число: {number}!')
 
-
+# Обработчик текстового сообщения "покажи лису"
 @router.message(F.text.lower() == 'покажи лису')
 async def info(message: types.Message):
     img_fox = fox()
